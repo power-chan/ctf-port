@@ -1,5 +1,12 @@
 [
-    
+    {
+        "date": "2026-03-10 20:17:00",
+        "tag": "Writeup",
+        "category": "Forensics",
+        "title": "AN IMAGE?",
+        "event": "Cryptonite CTF",
+        "link": ""
+    },
     {
         "date": "2026-03-10 19:41:00",
         "tag": "Writeup",
