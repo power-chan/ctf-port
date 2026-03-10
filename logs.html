@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Logs | activity.log</title>
+    <style>
+        :root {
+            --bg-color: #1a1b26;
+            --text-color: #a9b1d6;
+            --accent-color: #7aa2f7;
+            --font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            --tag-writeup: #9ece6a;
+            --tag-news: #bb9af7;
+            --tag-result: #7dcfff;
+            --cyan: #7dcfff;
+            --comment: #565f89;
+            --line-color: #3b4261;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 50% 0%, #1f2335 0%, #1a1b26 100%);
+            min-height: 100vh;
+            font-size: 15px;
+        }
+
+        .log-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .log-header {
+            border-bottom: 1px solid var(--line-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            animation: fadeInHeader 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInHeader {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.85em;
+            font-weight: bold;
+            border: 1px solid var(--line-color);
+            padding: 5px 12px;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            background: rgba(122, 162, 247, 0.1);
+            color: var(--cyan);
+            border-color: var(--accent-color);
+        }
+
+        .filter-bar {
+            margin: 20px 0;
+            font-size: 0.85em;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--line-color);
+            color: var(--comment);
+            padding: 3px 10px;
+            font-family: var(--font-family);
+            cursor: pointer;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+        .filter-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
+        .filter-btn.active {
+            background: rgba(122, 162, 247, 0.15);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .timeline { position: relative; padding-left: 30px; min-height: 100px; }
+        .timeline::before {
+            content: ""; position: absolute; left: 7px; top: 10px; bottom: 0; width: 2px;
+            background: var(--line-color);
+        }
+
+        .log-entry { 
+            position: relative; 
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        
+        .log-entry.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .log-entry.hidden { 
+            display: none !important;
+        }
+        
+        .log-entry::before {
+            content: ""; position: absolute; left: -27px; top: 6px; width: 10px; height: 10px;
+            background: var(--bg-color); border: 2px solid var(--accent-color); border-radius: 50%;
+            z-index: 2; box-shadow: 0 0 8px var(--accent-color);
+        }
+
+        .time-stamp { display: block; font-size: 0.85em; color: var(--comment); margin-bottom: 8px; }
+
+        .log-body {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--line-color);
+            padding: 18px;
+            border-radius: 6px;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+        }
+
+        .tag {
+            display: inline-block;
+            width: 75px;
+            text-align: center;
+            font-weight: bold; 
+            padding: 2px 4px;
+            border-radius: 3px; 
+            font-size: 0.75em;
+            text-transform: uppercase; 
+            margin-right: 6px;
+        }
+
+        .tag-writeup { background: rgba(158, 206, 106, 0.15); color: var(--tag-writeup); border: 1px solid var(--tag-writeup); }
+        .tag-result { background: rgba(125, 207, 255, 0.15); color: var(--cyan); border: 1px solid var(--cyan); }
+        .tag-news { background: rgba(187, 154, 247, 0.15); color: var(--tag-news); border: 1px solid var(--tag-news); }
+        .tag-category { background: rgba(86, 95, 137, 0.1); color: var(--comment); border: 1px solid var(--comment); text-transform: none; width: auto; padding: 2px 8px; }
+
+        .log-title {
+            display: block;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--text-color);
+            margin: 8px 0 5px 0;
+        }
+
+        .log-details {
+            color: var(--comment);
+            font-size: 0.9em;
+        }
+
+        .read-more-btn {
+            display: inline-block;
+            color: var(--tag-writeup);
+            text-decoration: none;
+            font-size: 0.8em;
+            font-weight: bold;
+            border: 1px solid var(--tag-writeup);
+            padding: 4px 12px;
+            border-radius: 4px;
+            background: rgba(158, 206, 106, 0.05);
+            transition: all 0.2s ease;
+            letter-spacing: 1px;
+            margin-top: 12px;
+        }
+        .read-more-btn:hover { background: rgba(158, 206, 106, 0.2); box-shadow: 0 0 12px rgba(158, 206, 106, 0.3); color: #fff; }
+
+        /* 無効化されたボタンのスタイル */
+        .read-more-btn.disabled {
+            color: var(--comment);
+            border-color: var(--comment);
+            background: rgba(86, 95, 137, 0.05);
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none;
+        }
+
+        .footer { text-align: center; margin-top: 60px; padding-bottom: 40px; font-size: 0.8em; color: var(--comment); }
+
+        @media (max-width: 600px) {
+            body { padding: 15px; }
+            .timeline { padding-left: 20px; }
+            .timeline::before { left: 5px; }
+            .log-entry::before { left: -19px; }
+            .log-body { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="log-container">
+    <header class="log-header">
+        <a href="index.html" class="back-link"> << BACK_TO_CONSOLE </a>
+        <h1 style="font-size: 1.2em; color: var(--accent-color); margin-top: 25px; margin-bottom: 10px;">
+            cat /var/log/activity.log
+        </h1>
+        
+        <div class="filter-bar">
+            <span style="color: var(--comment);">grep --type:</span>
+            <button class="filter-btn active" data-filter="all">ALL</button>
+            <button class="filter-btn" data-filter="tag-writeup">WRITEUP</button>
+            <button class="filter-btn" data-filter="tag-result">RESULT</button>
+            <button class="filter-btn" data-filter="tag-news">NEWS</button>
+        </div>
+    </header>
+
+    <div class="timeline" id="log-timeline">
+        </div>
+
+    <footer class="footer">
+        --- END_OF_FILE ---
+    </footer>
+</div>
+
+<script>
+    const DELAY_MS = 100;
+
+    function animateVisibleEntries() {
+        const entries = document.querySelectorAll('.log-entry');
+        const visibleTargets = Array.from(entries).filter(el => !el.classList.contains('hidden'));
+        
+        entries.forEach(entry => entry.classList.remove('visible'));
+
+        visibleTargets.forEach((entry, index) => {
+            setTimeout(() => {
+                entry.classList.add('visible');
+            }, index * DELAY_MS);
+        });
+    }
+
+    async function loadLogs() {
+        try {
+            const response = await fetch('logs.json');
+            const logs = await response.json();
+            const timeline = document.getElementById('log-timeline');
+
+timeline.innerHTML = logs.map(log => {
+    const tagClass = `tag-${log.tag.toLowerCase()}`;
+    const hasLink = log.link && log.link.trim() !== "";
+    
+    // 【修正】Writeup かつ リンクがある場合のみボタンを生成。それ以外は何も出さない。
+    let actionButton = "";
+    if (log.tag.toLowerCase() === "writeup" && hasLink) {
+        actionButton = `<a href="${log.link}" target="_blank" class="read-more-btn">[ READ_WRITEUP ] ↗</a>`;
+    } else if (log.tag.toLowerCase() === "writeup" && !hasLink) {
+        // Writeupなのにリンクがない場合だけ「準備中」の意味でグレーアウトを出す（任意）
+        actionButton = `<span class="read-more-btn disabled">[ NO_LINK_AVAILABLE ]</span>`;
+    }
+
+    return `
+        <div class="log-entry">
+            <span class="time-stamp">${log.date}</span>
+            <div class="log-body">
+                <div>
+                    <span class="tag ${tagClass}">${log.tag}</span>
+                    ${log.category ? `<span class="tag tag-category">${log.category}</span>` : ''}
+                </div>
+                <span class="log-title">${log.title}</span>
+                <div class="log-details">${log.details || `# Event: ${log.event}`}</div>
+                ${actionButton}
+            </div>
+        </div>
+    `;
+}).join('');
+
+            
+
+             
+
+
+ animateVisibleEntries();
+            setupFilters();
+        } catch (e) {
+            document.getElementById('log-timeline').innerHTML = '<p style="color:var(--tag-writeup)">[!] Error loading logs.json</p>';
+        }
+    }
+
+    function setupFilters() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const logEntries = document.querySelectorAll('.log-entry');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.getAttribute('data-filter');
+
+                logEntries.forEach(entry => {
+                    if (filter === 'all') {
+                        entry.classList.remove('hidden');
+                    } else {
+                        const hasTag = entry.querySelector(`.${filter}`);
+                        if (hasTag) {
+                            entry.classList.remove('hidden');
+                        } else {
+                            entry.classList.add('hidden');
+                        }
+                    }
+                });
+                
+                setTimeout(animateVisibleEntries, 50);
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadLogs);
+</script>
+
+</body>
+</html>

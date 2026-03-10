@@ -1,0 +1,153 @@
+:root {
+    --bg-color: #1a1b26;
+    --text-color: #a9b1d6;
+    --accent-color: #7aa2f7;
+    --font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    --tag-pwn: #f7768e;
+    --tag-writeup: #9ece6a;
+    --tag-web: #e0af68;
+    --tag-news: #bb9af7;
+    --tag-result: #7dcfff;
+    --cyan: #7dcfff;
+    --comment: #565f89;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-image: radial-gradient(circle at 50% 50%, #1f2335 0%, #1a1b26 100%);
+}
+
+.header {
+    border-bottom: 1px solid #3b4261;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85em;
+    white-space: nowrap;
+}
+
+.glitch { color: var(--accent-color); font-weight: bold; }
+
+.container {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    overflow: hidden;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.sidebar {
+    width: 200px;
+    border-right: 1px solid #3b4261;
+    padding-right: 15px;
+    flex-shrink: 0;
+}
+
+.sidebar h3 { font-size: 1em; color: var(--comment); margin-top: 0; border-bottom: 1px solid #3b4261; padding-bottom: 5px; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li { margin: 10px 0; }
+
+.sidebar li a {
+    display: block;
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.sidebar li a:hover, .sidebar li a.active {
+    background: rgba(122, 162, 247, 0.15);
+    color: var(--cyan);
+}
+
+.terminal {
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid #3b4261;
+    padding: 25px;
+    background: rgba(26, 27, 38, 0.7);
+    border-radius: 8px;
+    cursor: text;
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+.prompt {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.prompt .user { color: var(--accent-color); }
+.prompt .symbol { color: var(--cyan); }
+.prompt .command {
+    color: #fff;
+    margin-left: 10px;
+}
+
+.response { margin-bottom: 25px; line-height: 1.6; padding-left: 5px; transition: opacity 0.5s ease; }
+
+.tag { font-weight: bold; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; text-transform: uppercase; margin-right: 8px; }
+.tag-pwn { background: rgba(247, 118, 142, 0.2); color: var(--tag-pwn); border: 1px solid var(--tag-pwn); }
+.tag-writeup { background: rgba(158, 206, 106, 0.2); color: var(--tag-writeup); border: 1px solid var(--tag-writeup); }
+.tag-web { background: rgba(224, 175, 104, 0.2); color: var(--tag-web); border: 1px solid var(--tag-web); }
+.tag-news { background: rgba(187, 154, 247, 0.2); color: var(--tag-news); border: 1px solid var(--tag-news); }
+.tag-result { background: rgba(125, 207, 255, 0.2); color: var(--tag-result); border: 1px solid var(--tag-result); }
+
+/* スキルバーの崩れ防止 */
+.skill-grid {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.skill-item {
+    display: flex;
+    align-items: center;
+}
+.skill-label {
+    width: 110px; /* 文字数が多いForensicsに合わせた幅 */
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+.skill-bar {
+    color: var(--comment);
+    white-space: pre;
+}
+
+a { 
+    color: var(--cyan); 
+    text-decoration: none; 
+    transition: 0.2s;
+}
+
+a:hover { 
+    background: rgba(125, 207, 255, 0.1); 
+}
+
+.cursor { display: inline-block; width: 8px; height: 1.2em; background: var(--accent-color); animation: blink 1s infinite; vertical-align: middle; margin-left: 5px; }
+@keyframes blink { 50% { opacity: 0; } }
+
+@media (max-width: 768px) {
+    .container { flex-direction: column; }
+    .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #3b4261; padding-bottom: 10px; }
+    .terminal { min-height: 400px; }
+}

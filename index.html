@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>power | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="glitch">
+        [ SYSTEM <span style="color: var(--tag-writeup);">ONLINE</span> ]
+    </div>
+    <div id="jst-time"></div>
+</header>
+
+<div class="container">
+    <nav class="sidebar">
+        <h3>/workspace</h3>
+        <ul>
+            <li><a onclick="showSection('whoami')" class="menu-item active">./whoami</a></li>
+            <li><a onclick="showSection('achievements')" class="menu-item">./achievements</a></li>
+            <li><a onclick="showSection('timeline')" class="menu-item">./activity.log</a></li>
+            <li><a onclick="showSection('contact')" class="menu-item">./contact.sh</a></li>
+        </ul>
+    </nav>
+
+    <main class="terminal" id="terminal-screen">
+        <section id="error-section" class="section">
+            <div class="prompt">
+                <span class="user">power@ctf-portfolio</span><span class="symbol">:~$</span>
+                <span class="command" id="error-command"></span>
+            </div>
+            <div class="response" style="color: var(--tag-pwn);">
+                bash: command not found
+            </div>
+        </section>
+
+        <section id="whoami" class="section">
+            <div class="prompt">
+                <span class="user">power@ctf-portfolio</span><span class="symbol">:~$</span>
+                <span class="command">whoami</span>
+            </div>
+            <div class="response">
+                <span style="color:var(--tag-writeup)">power@power_chan</span><br>
+                -----------------------<br>
+                <strong>Handle:</strong> power<br>
+                <strong>Role:</strong> CTF Player<br>
+                <br>
+                <span style="color: var(--comment);"># Skill Analysis (Distribution by Writeups)</span><br>
+                <div id="skill-inventory" class="skill-grid"></div>
+            </div>
+        </section>
+
+        <section id="achievements" class="section">
+            <div class="prompt">
+                <span class="user">power@ctf-portfolio</span><span class="symbol">:~$</span>
+                <span class="command">ls -l ./achievements</span>
+            </div>
+            <div class="response">
+                <table style="width:100%; border-collapse: collapse; font-size: 0.9em;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid #3b4261; text-align: left; color: var(--comment);">
+                            <th>DATE</th><th>EVENT</th><th>RESULT</th>
+                        </tr>
+                    </thead>
+                    <tbody id="achievement-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="timeline" class="section">
+            <div class="prompt">
+                <span class="user">power@ctf-portfolio</span><span class="symbol">:~$</span>
+                <span class="command">tail -n 3 activity.log</span>
+            </div>
+            <div class="response" id="log-response"></div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="prompt">
+                <span class="user">power@ctf-portfolio</span><span class="symbol">:~$</span>
+                <span class="command">./contact.sh</span>
+            </div>
+            <div class="response">
+                <span style="color:var(--comment)"># Reach out to me via:</span><br>
+                Zenn: <a href="https://zenn.dev/power_chan" target="_blank">zenn.dev/power_chan</a><br>
+                Discord: poooooooooower<br>
+                X: <a href="https://x.com/poweeeeeer_chan?s=21" target="_blank">poweeeeeer_chan</a>
+            </div>
+        </section>
+
+        <div class="prompt" id="bottom-prompt" style="display: flex;">
+            <span class="user">power@ctf-portfolio</span><span class="symbol">:~$</span>
+            <span class="command" id="input-display"></span>
+            <span class="cursor"></span>
+            <input type="text" id="hidden-input" style="position: absolute; opacity: 0; pointer-events: none;">
+        </div>
+    </main>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

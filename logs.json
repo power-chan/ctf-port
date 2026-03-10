@@ -1,0 +1,44 @@
+[
+    {
+        "date": "2026-03-10 18:30:00",
+        "tag": "Writeup",
+        "category": "Crypto",
+        "title": "SHARED SECRETS",
+        "event": "Cryptonite CTF",
+        "link": "https://zenn.dev/power_chan/articles/8920d96126e84b"
+    },
+    {
+        "date": "2026-03-10 17:20:50",
+        "tag": "Writeup",
+        "category": "OSINT",
+        "title": "CAN'T CATCH ME",
+        "event": "Cryptonite CTF",
+        "link": "https://zenn.dev/power_chan/articles/c10a0e9496dfc9"
+    },
+    {
+        "date": "2026-03-10 13:06:23",
+        "tag": "Writeup",
+        "category": "Misc",
+        "title": "THE ONION",
+        "event": "Cryptonite CTF",
+        "link": "https://zenn.dev/power_chan/articles/4af6d53fba499d"
+    },
+    {
+        "date": "2026-03-09 10:00:00",
+        "tag": "News",
+        "title": "Personal portfolio site launched.",
+        "details": "# Status: System is now online."
+    },
+    {
+        "date": "2026-03-07 20:30:00",
+        "tag": "Result",
+        "title": "Cryptonite CTF",
+        "details": "# Rank: 217th / 383 teams"
+    },
+    {
+        "date": "2025-12-01 09:00:00",
+        "tag": "News",
+        "title": "Started CTF journey.",
+        "details": "# First step into the world of Cybersecurity."
+    }
+]
