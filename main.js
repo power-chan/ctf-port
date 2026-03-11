@@ -11,7 +11,7 @@ async function fetchLatestLogs() {
         const writeups = logs.filter(log => log.tag === "Writeup");
         const totalWriteups = writeups.length;
 
-        writeups.forEach(log => {
+                writeups.forEach(log => {
             const cat = log.category || "";
             if (cat.includes("Pwn")) skillCounts["Pwn"]++;
             else if (cat.includes("Rev")) skillCounts["Rev"]++;
@@ -19,9 +19,10 @@ async function fetchLatestLogs() {
             else if (cat.includes("Crypto")) skillCounts["Crypto"]++;
             else if (cat.includes("Forensics")) skillCounts["Forensics"]++;
             else if (cat.includes("OSINT")) skillCounts["OSINT"]++;
-            else if (cat.includes("Hardware")) skillCounts["Hardware"]++;
+            else if (cat.includes("Hardware")) skillCounts["Hardware"]++; // ここ
             else skillCounts["Misc"]++;
         });
+
 
         const skillInventory = document.getElementById('skill-inventory');
         if (skillInventory) {
