@@ -5,7 +5,7 @@ async function fetchLatestLogs() {
 
         // --- 1. スキル集計 ---
         const skillCounts = {
-            "Pwn": 0, "Rev": 0, "Web": 0, "Crypto": 0, "Forensics": 0, "OSINT": 0, "Misc": 0,"Hardware": 0
+            "Pwn": 0, "Rev": 0, "Web": 0, "Crypto": 0, "Forensics": 0, "OSINT": 0, "Hardware": 0,"Misc": 0
         };
 
         const writeups = logs.filter(log => log.tag === "Writeup");
