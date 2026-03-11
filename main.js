@@ -5,7 +5,7 @@ async function fetchLatestLogs() {
 
         // --- 1. スキル集計 ---
         const skillCounts = {
-            "Pwn": 0, "Rev": 0, "Web": 0, "Crypto": 0, "Forensics": 0, "OSINT": 0, "Misc": 0
+            "Pwn": 0, "Rev": 0, "Web": 0, "Crypto": 0, "Forensics": 0, "OSINT": 0, "Misc": 0,"Hardware": 0
         };
 
         const writeups = logs.filter(log => log.tag === "Writeup");
@@ -19,6 +19,7 @@ async function fetchLatestLogs() {
             else if (cat.includes("Crypto")) skillCounts["Crypto"]++;
             else if (cat.includes("Forensics")) skillCounts["Forensics"]++;
             else if (cat.includes("OSINT")) skillCounts["OSINT"]++;
+            else if (cat.includes("Hardware")) skillCounts["Hardware"]++;
             else skillCounts["Misc"]++;
         });
 
@@ -36,7 +37,7 @@ async function fetchLatestLogs() {
                     "Pwn": "var(--tag-pwn)", "Rev": "var(--tag-writeup)", 
                     "Web": "var(--tag-web)", "Crypto": "var(--cyan)", 
                     "Forensics": "#ff9e64",
-                    "OSINT": "var(--tag-news)", "Misc": "var(--comment)" 
+                    "OSINT": "var(--tag-news)", "Misc": "var(--comment)","Hardware": "#e67e22" 
                 };
                 const color = colors[genre] || "var(--text-color)";
 
