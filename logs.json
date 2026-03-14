@@ -1,5 +1,13 @@
 [
     {
+        "date": "2026-03-14 20:45:00",
+        "tag": "Writeup",
+        "category": "Web",
+        "title": "FlagGetAPI",
+        "event": "E4syCTF",
+        "link": "https://hackmd.io/@power-chan/ryThXpM9Wg"
+    },
+    {
         "date": "2026-03-13 07:56:00",
         "tag": "Writeup",
         "category": "Pwn",
